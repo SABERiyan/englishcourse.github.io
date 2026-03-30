@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The English Mastery Course</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --cream: #faf7f2;
+  --paper: #f3ede3;
+  --warm: #e8dece;
+  --border: rgba(90,70,50,0.12);
+  --border2: rgba(90,70,50,0.22);
+  --ink: #1e1a15;
+  --ink2: #5a4e42;
+  --ink3: #9c8c7c;
+  --ink4: #c4b8aa;
+  --gold: #c4923a;
+  --gold2: #e8b86d;
+  --gold-light: rgba(196,146,58,0.1);
+  --red: #b54a3a;
+  --green: #3a7a5a;
+  --blue: #3a5a8a;
+  --purple: #6a4a8a;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--ink);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== TEXTURE OVERLAY ===== */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-wrap {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--warm);
+  z-index: 200;
+}
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), var(--gold2));
+  width: 0%;
+  transition: width 0.1s;
+}
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink);
+  padding: 0;
+  min-height: 520px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.hero-bg-text {
+  position: absolute;
+  top: -30px;
+  left: -20px;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(140px, 22vw, 260px);
+  font-weight: 900;
+  color: rgba(255,255,255,0.025);
+  letter-spacing: -0.05em;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.hero-inner {
+  position: relative;
+  z-index: 2;
+  padding: 60px 60px 56px;
+  max-width: 1000px;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.eyebrow-line {
+  width: 32px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.eyebrow-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(48px, 8vw, 96px);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
+  color: var(--cream);
+  margin-bottom: 6px;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--gold2);
+}
+
+.hero-subtitle {
+  font-size: 16px;
+  color: rgba(250,247,242,0.5);
+  margin-top: 20px;
+  max-width: 500px;
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  flex-wrap: wrap;
+}
+
+.hero-stat-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: var(--cream);
+  line-height: 1;
+}
+
+.hero-stat-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink3);
+  margin-top: 4px;
+}
+
+/* ===== ROADMAP RIBBON ===== */
+.ribbon {
+  background: var(--gold);
+  padding: 0;
+  overflow-x: auto;
+  position: relative;
+}
+
+.ribbon-inner {
+  display: flex;
+  min-width: 700px;
+}
+
+.ribbon-step {
+  flex: 1;
+  padding: 16px 20px;
+  border-right: 1px solid rgba(255,255,255,0.2);
+  cursor: pointer;
+  transition: background 0.2s;
+  text-decoration: none;
+}
+
+.ribbon-step:last-child { border-right: none; }
+.ribbon-step:hover { background: rgba(255,255,255,0.12); }
+
+.ribbon-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  color: rgba(30,26,21,0.5);
+  letter-spacing: 0.08em;
+  margin-bottom: 3px;
+}
+
+.ribbon-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.ribbon-weeks {
+  font-size: 11px;
+  color: rgba(30,26,21,0.55);
+  margin-top: 2px;
+}
+
+/* ===== MAIN CONTENT ===== */
+.main {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 64px 40px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+.section-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.section-eyebrow-line {
+  width: 24px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.section-eyebrow-text {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.section-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 48px;
+  color: var(--ink);
+}
+
+/* ===== PHASE ===== */
+.phase {
+  margin-bottom: 40px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(90,70,50,0.05);
+  transition: box-shadow 0.2s;
+}
+
+.phase:hover {
+  box-shadow: 0 4px 24px rgba(90,70,50,0.1);
+}
+
+.phase-header {
+  display: flex;
+  align-items: stretch;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.15s;
+}
+
+.phase-header:hover { background: rgba(250,247,242,0.8); }
+
+.phase-accent {
+  width: 6px;
+  flex-shrink: 0;
+}
+
+.phase-header-inner {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 28px;
+}
+
+.phase-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 42px;
+  font-weight: 900;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.phase-meta { flex: 1; }
+
+.phase-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.phase-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 3px;
+}
+
+.phase-desc {
+  font-size: 13px;
+  color: var(--ink3);
+  font-style: italic;
+}
+
+.phase-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 6px;
+  padding-right: 28px;
+}
+
+.phase-duration {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--ink4);
+}
+
+.phase-arrow {
+  font-size: 18px;
+  color: var(--ink4);
+  transition: transform 0.3s;
+}
+
+.phase-header.open .phase-arrow { transform: rotate(180deg); }
+
+/* ===== PHASE BODY ===== */
+.phase-body { display: none; border-top: 1px solid var(--border); }
+.phase-body.open { display: block; }
+
+/* ===== MODULE ===== */
+.module { border-top: 1px solid var(--border); }
+.module:first-child { border-top: none; }
+
+.module-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 28px 14px 34px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.module-header:hover { background: rgba(250,247,242,0.6); }
+
+.module-num {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--ink4);
+  min-width: 28px;
+}
+
+.module-icon { font-size: 16px; flex-shrink: 0; }
+
+.module-name {
+  flex: 1;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.module-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.badge {
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  padding: 3px 9px;
+  border-radius: 2px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 400;
+}
+
+.badge-core { background: rgba(196,146,58,0.12); color: #8a6420; border: 1px solid rgba(196,146,58,0.3); }
+.badge-skill { background: rgba(58,90,138,0.1); color: #2a4070; border: 1px solid rgba(58,90,138,0.25); }
+.badge-adv  { background: rgba(106,74,138,0.1); color: #4a2a78; border: 1px solid rgba(106,74,138,0.25); }
+.badge-proj { background: rgba(181,74,58,0.1); color: #7a2a1e; border: 1px solid rgba(181,74,58,0.25); }
+.badge-lit  { background: rgba(58,122,90,0.1); color: #1e5a3a; border: 1px solid rgba(58,122,90,0.25); }
+
+.module-chevron {
+  font-size: 11px;
+  color: var(--ink4);
+  transition: transform 0.2s;
+}
+.module-header.open .module-chevron { transform: rotate(180deg); }
+
+/* ===== MODULE CONTENT ===== */
+.module-content {
+  display: none;
+  padding: 4px 28px 22px 78px;
+  background: rgba(250,247,242,0.4);
+}
+.module-content.open { display: block; }
+
+.topic-list { list-style: none; padding: 10px 0 0; }
+
+.topic-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 7px 0;
+  font-size: 14px;
+  color: var(--ink2);
+  line-height: 1.55;
+  border-bottom: 1px dashed rgba(90,70,50,0.08);
+}
+.topic-list li:last-child { border-bottom: none; }
+
+.t-bullet {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  margin-top: 8px;
+  flex-shrink: 0;
+}
+
+.example-box {
+  margin-top: 14px;
+  border-left: 3px solid var(--gold);
+  padding: 14px 18px;
+  background: rgba(196,146,58,0.05);
+  border-radius: 0 4px 4px 0;
+  font-size: 13px;
+  color: var(--ink2);
+  line-height: 1.7;
+}
+
+.example-box strong {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.quote-box {
+  margin-top: 14px;
+  border-left: 3px solid var(--green);
+  padding: 14px 18px;
+  background: rgba(58,122,90,0.05);
+  border-radius: 0 4px 4px 0;
+}
+
+.quote-box strong {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green);
+  display: block;
+  margin-bottom: 8px;
+}
+
+.quote-box blockquote {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 15px;
+  color: var(--ink2);
+  line-height: 1.6;
+}
+
+.quote-box cite {
+  font-size: 12px;
+  color: var(--ink3);
+  display: block;
+  margin-top: 6px;
+  font-style: normal;
+}
+
+.project-box {
+  margin-top: 14px;
+  border: 1px solid rgba(181,74,58,0.2);
+  border-radius: 4px;
+  padding: 14px 18px;
+  background: rgba(181,74,58,0.04);
+  font-size: 13px;
+  color: var(--ink2);
+  line-height: 1.6;
+}
+
+.project-box strong {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--red);
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* ===== PHASE COLOR THEMES ===== */
+.phase-1 .phase-accent { background: var(--gold); }
+.phase-1 .phase-num   { color: var(--gold); }
+.phase-1 .phase-tag   { color: var(--gold); }
+
+.phase-2 .phase-accent { background: var(--blue); }
+.phase-2 .phase-num   { color: var(--blue); }
+.phase-2 .phase-tag   { color: var(--blue); }
+
+.phase-3 .phase-accent { background: var(--green); }
+.phase-3 .phase-num   { color: var(--green); }
+.phase-3 .phase-tag   { color: var(--green); }
+
+.phase-4 .phase-accent { background: var(--purple); }
+.phase-4 .phase-num   { color: var(--purple); }
+.phase-4 .phase-tag   { color: var(--purple); }
+
+.phase-5 .phase-accent { background: var(--red); }
+.phase-5 .phase-num   { color: var(--red); }
+.phase-5 .phase-tag   { color: var(--red); }
+
+/* ===== DIVIDER ===== */
+.ornament-divider {
+  text-align: center;
+  margin: 56px 0 48px;
+  position: relative;
+}
+.ornament-divider::before, .ornament-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: calc(50% - 48px);
+  height: 1px;
+  background: var(--border);
+}
+.ornament-divider::before { left: 0; }
+.ornament-divider::after { right: 0; }
+.ornament-divider span {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: var(--ink4);
+  padding: 0 16px;
+}
+
+/* ===== CLOSING BANNER ===== */
+.closing {
+  background: var(--ink);
+  padding: 72px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.closing-bg {
+  position: absolute;
+  inset: 0;
+  font-family: 'Playfair Display', serif;
+  font-size: 200px;
+  font-weight: 900;
+  color: rgba(255,255,255,0.02);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  letter-spacing: -0.05em;
+}
+
+.closing-inner { position: relative; z-index: 1; }
+
+.closing h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 700;
+  color: var(--cream);
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+
+.closing h2 em {
+  color: var(--gold2);
+  font-style: italic;
+}
+
+.closing p {
+  color: rgba(250,247,242,0.45);
+  font-size: 15px;
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.7;
+  font-weight: 300;
+}
+
+@media (max-width: 640px) {
+  .hero-inner { padding: 40px 24px 40px; }
+  .main { padding: 40px 20px 60px; }
+  .phase-header-inner { padding: 16px 18px; gap: 12px; }
+  .module-header { padding: 12px 18px 12px 24px; }
+  .module-content { padding: 4px 18px 18px 24px; }
+  .hero-stats { gap: 28px; }
+  .closing { padding: 48px 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-wrap"><div class="progress-bar" id="pbar"></div></div>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="hero-bg-text">English</div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <div class="eyebrow-line"></div>
+      <div class="eyebrow-text">Complete Curriculum · Foundation to Mastery</div>
+    </div>
+    <h1>The Art of<br><em>English</em></h1>
+    <p class="hero-subtitle">A structured journey from your very first alphabet through the heights of literature, rhetoric, and advanced academic writing.</p>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">5</div>
+        <div class="hero-stat-label">Phases</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">26</div>
+        <div class="hero-stat-label">Modules</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">130+</div>
+        <div class="hero-stat-label">Topics</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">20</div>
+        <div class="hero-stat-label">Weeks</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== RIBBON ===== -->
+<div class="ribbon">
+  <div class="ribbon-inner">
+    <div class="ribbon-step">
+      <div class="ribbon-num">Phase 01</div>
+      <div class="ribbon-name">Foundation</div>
+      <div class="ribbon-weeks">Week 1–3</div>
+    </div>
+    <div class="ribbon-step">
+      <div class="ribbon-num">Phase 02</div>
+      <div class="ribbon-name">Core Language</div>
+      <div class="ribbon-weeks">Week 4–7</div>
+    </div>
+    <div class="ribbon-step">
+      <div class="ribbon-num">Phase 03</div>
+      <div class="ribbon-name">Communication</div>
+      <div class="ribbon-weeks">Week 8–12</div>
+    </div>
+    <div class="ribbon-step">
+      <div class="ribbon-num">Phase 04</div>
+      <div class="ribbon-name">Advanced Writing</div>
+      <div class="ribbon-weeks">Week 13–17</div>
+    </div>
+    <div class="ribbon-step">
+      <div class="ribbon-num">Phase 05</div>
+      <div class="ribbon-name">Literature & Mastery</div>
+      <div class="ribbon-weeks">Week 18–20</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== MAIN ===== -->
+<main class="main">
+
+  <div class="section-eyebrow">
+    <div class="section-eyebrow-line"></div>
+    <div class="section-eyebrow-text">// curriculum</div>
+  </div>
+  <h2 class="section-heading">All Five Phases</h2>
+
+  <!-- ============================================================
+       PHASE 1 — FOUNDATION
+  ============================================================ -->
+  <div class="phase phase-1" id="ph1">
+    <div class="phase-header" onclick="togglePhase('ph1')">
+      <div class="phase-accent"></div>
+      <div class="phase-header-inner">
+        <div class="phase-num">01</div>
+        <div class="phase-meta">
+          <div class="phase-tag">Phase 01 · Foundation</div>
+          <div class="phase-title">The Absolute Basics</div>
+          <div class="phase-desc">Alphabet, phonics, basic words, and forming your first sentences</div>
+        </div>
+        <div class="phase-right">
+          <div class="phase-duration">Week 1–3</div>
+          <div class="phase-arrow">▾</div>
+        </div>
+      </div>
+    </div>
+    <div class="phase-body" id="ph1-body">
+
+      <!-- M1 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m1')">
+          <div class="module-num">01</div>
+          <div class="module-icon">🔤</div>
+          <div class="module-name">The Alphabet & Phonics</div>
+          <div class="module-badges"><span class="badge badge-core">Core</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m1">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--gold)"></span>26 letters — uppercase (A–Z) and lowercase (a–z), their shapes and names</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Vowels (A, E, I, O, U) vs consonants — and why it matters</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Phonics: how letters map to sounds (short vowel sounds, hard/soft consonants)</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Common letter combinations: <em>ch, sh, th, ph, wh, ck, ng</em></li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Silent letters: knife, write, gnome, hour — and the logic behind them</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Introduction to syllables — breaking words into parts</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>The International Phonetic Alphabet (IPA) basics for correct pronunciation</li>
+          </ul>
+          <div class="example-box">
+            <strong>📖 Example</strong>
+            Short vowel: <em>c<u>a</u>t, b<u>e</u>d, s<u>i</u>t, h<u>o</u>t, c<u>u</u>p</em><br>
+            Long vowel: <em>c<u>a</u>ke, s<u>ee</u>, k<u>i</u>te, b<u>oa</u>t, c<u>u</u>te</em><br>
+            Silent letter: <em><u>k</u>nife, wri<u>te</u>, w<u>h</u>at → /wɒt/</em>
+          </div>
+        </div>
+      </div>
+
+      <!-- M2 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m2')">
+          <div class="module-num">02</div>
+          <div class="module-icon">📦</div>
+          <div class="module-name">Basic Vocabulary — Everyday Words</div>
+          <div class="module-badges"><span class="badge badge-core">Core</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m2">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Numbers (1–1000), ordinal numbers (first, second…), cardinal numbers</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Days of the week, months, seasons, and telling time</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Colors, shapes, sizes — descriptive basics</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Family members, body parts, clothes, food, animals</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Common action words: go, eat, sleep, read, write, sit, run, help</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Greetings and politeness: Hello, Goodbye, Please, Thank you, Sorry, Excuse me</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Question words: Who, What, When, Where, Why, How — the 5 W's + H</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- M3 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m3')">
+          <div class="module-num">03</div>
+          <div class="module-icon">🧩</div>
+          <div class="module-name">First Sentences — Structure & Parts of Speech</div>
+          <div class="module-badges"><span class="badge badge-core">Core</span><span class="badge badge-skill">Skill</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m3">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--gold)"></span>What is a sentence? Subject + Verb + Object (SVO structure)</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Nouns: common, proper, concrete, abstract — what a noun is</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Pronouns: I, you, he, she, it, we, they — and their object forms</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Verbs: action words (run, eat) vs linking verbs (is, are, was)</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Adjectives: describing nouns (big, red, happy)</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Articles: A, An, The — when to use each one</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Four sentence types: declarative, interrogative, imperative, exclamatory</li>
+          </ul>
+          <div class="example-box">
+            <strong>📖 Example</strong>
+            <strong>Subject</strong> → <em>The cat</em><br>
+            <strong>Verb</strong> → <em>sleeps</em><br>
+            <strong>Object</strong> → <em>on the mat</em><br><br>
+            → <em>"The cat sleeps on the mat."</em> ✓
+          </div>
+        </div>
+      </div>
+
+      <!-- M4 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m4')">
+          <div class="module-num">04</div>
+          <div class="module-icon">✏️</div>
+          <div class="module-name">Spelling Rules & Punctuation Basics</div>
+          <div class="module-badges"><span class="badge badge-core">Core</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m4">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--gold)"></span>"i before e except after c" — and all its exceptions</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Doubling consonants before suffixes: run → running, sit → sitting</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Dropping the silent -e before vowel suffixes: make → making</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Plurals: -s, -es, -ies, irregular (child→children, mouse→mice)</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Capital letters: start of sentence, names, places, days, months, "I"</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Period (.), Question mark (?), Exclamation mark (!), Comma (,)</li>
+            <li><span class="t-bullet" style="background:var(--gold)"></span>Apostrophes: contractions (don't, can't) vs possession (Saber's book)</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /phase 1 -->
+
+  <!-- ============================================================
+       PHASE 2 — CORE LANGUAGE
+  ============================================================ -->
+  <div class="phase phase-2" id="ph2">
+    <div class="phase-header" onclick="togglePhase('ph2')">
+      <div class="phase-accent"></div>
+      <div class="phase-header-inner">
+        <div class="phase-num">02</div>
+        <div class="phase-meta">
+          <div class="phase-tag">Phase 02 · Core Language</div>
+          <div class="phase-title">Grammar, Tenses & Vocabulary Building</div>
+          <div class="phase-desc">The complete grammar engine — every tense, every structure, every rule</div>
+        </div>
+        <div class="phase-right">
+          <div class="phase-duration">Week 4–7</div>
+          <div class="phase-arrow">▾</div>
+        </div>
+      </div>
+    </div>
+    <div class="phase-body" id="ph2-body">
+
+      <!-- M5 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m5')">
+          <div class="module-num">05</div>
+          <div class="module-icon">⏱️</div>
+          <div class="module-name">All 12 Tenses — Complete System</div>
+          <div class="module-badges"><span class="badge badge-core">Core</span><span class="badge badge-skill">Skill</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m5">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Present Simple</strong> — habits and facts: "She <em>reads</em> every day."</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Present Continuous</strong> — happening now: "She <em>is reading</em> now."</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Present Perfect</strong> — past with present relevance: "She <em>has read</em> it."</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Present Perfect Continuous</strong> — ongoing since: "She <em>has been reading</em> for an hour."</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Past Simple</strong> — completed action: "She <em>read</em> it yesterday."</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Past Continuous</strong> — ongoing in past: "She <em>was reading</em> when I called."</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Past Perfect</strong> — before another past event: "She <em>had read</em> it before."</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Past Perfect Continuous</strong> — duration before past event</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Future Simple</strong> — will/won't: "She <em>will read</em> it tomorrow."</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Future Continuous</strong> — ongoing in future: "She <em>will be reading</em> then."</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Future Perfect</strong> — completed before future: "She <em>will have read</em> it by Friday."</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Future Perfect Continuous</strong> — duration up to a future point</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- M6 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m6')">
+          <div class="module-num">06</div>
+          <div class="module-icon">📐</div>
+          <div class="module-name">Parts of Speech — Deep Dive</div>
+          <div class="module-badges"><span class="badge badge-core">Core</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m6">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Nouns:</strong> countable/uncountable, singular/plural, collective nouns (a <em>flock</em> of birds)</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Pronouns:</strong> personal, possessive, reflexive, relative, demonstrative, indefinite</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Adjectives:</strong> comparative (bigger), superlative (biggest), order of adjectives</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Verbs:</strong> transitive/intransitive, regular/irregular, modal verbs (can, could, must, should, would, may, might)</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Adverbs:</strong> of manner (quickly), frequency (always), degree (very), place, time</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Prepositions:</strong> of place (in, on, at, under), time (at, on, in), movement (to, from, through)</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Conjunctions:</strong> coordinating (FANBOYS), subordinating (because, although, while)</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Interjections:</strong> Oh! Wow! Alas! — emotional exclamations</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- M7 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m7')">
+          <div class="module-num">07</div>
+          <div class="module-icon">🔗</div>
+          <div class="module-name">Sentence Structure & Clauses</div>
+          <div class="module-badges"><span class="badge badge-core">Core</span><span class="badge badge-skill">Skill</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m7">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Simple, compound, complex, and compound-complex sentences</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Independent and dependent (subordinate) clauses</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Relative clauses: defining (<em>The man who called</em>) vs non-defining (<em>My brother, who lives in Dhaka</em>)</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Noun clauses: "I know <em>that he is right</em>."</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Adverbial clauses: time, cause, condition, concession</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Phrases: noun phrase, verb phrase, prepositional phrase, participial phrase</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Run-on sentences and sentence fragments — how to fix them</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- M8 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m8')">
+          <div class="module-num">08</div>
+          <div class="module-icon">🔄</div>
+          <div class="module-name">Active & Passive Voice, Direct & Indirect Speech</div>
+          <div class="module-badges"><span class="badge badge-core">Core</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m8">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Active voice: subject performs action — "The dog bit the man."</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Passive voice: subject receives action — "The man was bitten by the dog."</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>When to use passive: unknown agent, formal writing, emphasis on object</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Passive in all tenses: is done, was done, has been done, will be done…</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Direct speech: "He said, <em>'I am tired.'"</em></li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Indirect (reported) speech: "He said <em>that he was tired.</em>"</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Backshift of tenses, pronoun changes, time expression changes in reported speech</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- M9 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m9')">
+          <div class="module-num">09</div>
+          <div class="module-icon">📚</div>
+          <div class="module-name">Vocabulary Building — Systems & Strategies</div>
+          <div class="module-badges"><span class="badge badge-skill">Skill</span><span class="badge badge-adv">Advanced</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m9">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Root words from Latin and Greek: <em>port</em> (carry), <em>rupt</em> (break), <em>bio</em> (life), <em>graph</em> (write)</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Prefixes: un-, re-, pre-, mis-, dis-, over-, under-, anti-, inter-</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Suffixes: -tion, -ness, -ful, -less, -ly, -able, -ment, -er, -ish</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Synonyms, antonyms, homonyms, and homophones</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Connotation vs denotation: <em>thin</em> vs <em>slender</em> vs <em>scrawny</em></li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Context clue strategies for guessing unknown words</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>The 3000 most common English words (Oxford Word List) — structured learning</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Academic Word List (AWL) for university and formal writing</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Spaced repetition (flashcards, Anki) — how memory works for vocabulary</li>
+          </ul>
+          <div class="example-box">
+            <strong>📖 Root Word Example</strong>
+            Root: <em>scrib / script</em> (to write)<br>
+            → <em>describe, prescription, manuscript, inscribe, transcribe, scripture</em><br><br>
+            One root unlocks an entire family of words!
+          </div>
+        </div>
+      </div>
+
+      <!-- M10 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m10')">
+          <div class="module-num">10</div>
+          <div class="module-icon">🧸</div>
+          <div class="module-name">Conditionals & Subjunctive Mood</div>
+          <div class="module-badges"><span class="badge badge-core">Core</span><span class="badge badge-skill">Skill</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m10">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Zero conditional</strong> — universal truth: "If you heat water, it boils."</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>First conditional</strong> — real possibility: "If I study, I will pass."</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Second conditional</strong> — hypothetical: "If I were rich, I would travel."</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Third conditional</strong> — past hypothetical: "If I had studied, I would have passed."</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span><strong>Mixed conditionals</strong> — combining 2nd and 3rd</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Subjunctive mood: "I wish I <em>were</em> there." / "It is essential that he <em>be</em> present."</li>
+            <li><span class="t-bullet" style="background:var(--blue)"></span>Were-subjunctive in formal and literary English</li>
+          </ul>
+          <div class="project-box">
+            <strong>✍️ Writing Exercise</strong>Write a one-page short story using at least three different conditionals naturally woven into the narrative. Explore what might have been, what could be, and what always happens.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /phase 2 -->
+
+  <!-- ============================================================
+       PHASE 3 — COMMUNICATION SKILLS
+  ============================================================ -->
+  <div class="phase phase-3" id="ph3">
+    <div class="phase-header" onclick="togglePhase('ph3')">
+      <div class="phase-accent"></div>
+      <div class="phase-header-inner">
+        <div class="phase-num">03</div>
+        <div class="phase-meta">
+          <div class="phase-tag">Phase 03 · Communication</div>
+          <div class="phase-title">Reading, Writing, Speaking & Listening</div>
+          <div class="phase-desc">Four skills developed together — the full communicator emerges</div>
+        </div>
+        <div class="phase-right">
+          <div class="phase-duration">Week 8–12</div>
+          <div class="phase-arrow">▾</div>
+        </div>
+      </div>
+    </div>
+    <div class="phase-body" id="ph3-body">
+
+      <!-- M11 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m11')">
+          <div class="module-num">11</div>
+          <div class="module-icon">👁️</div>
+          <div class="module-name">Reading Comprehension & Critical Reading</div>
+          <div class="module-badges"><span class="badge badge-skill">Skill</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m11">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--green)"></span>Skimming (get the gist) vs scanning (find specific info) vs deep reading</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Identifying main idea, supporting details, and conclusions</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Inference: reading between the lines — what is implied, not stated</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Author's purpose: to inform, persuade, entertain, or describe</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Tone and mood in texts: formal, ironic, melancholic, celebratory</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Fact vs opinion — critical thinking in reading</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Reading different text types: articles, editorials, academic papers, narratives</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- M12 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m12')">
+          <div class="module-num">12</div>
+          <div class="module-icon">🖊️</div>
+          <div class="module-name">Paragraph Writing & Essay Structure</div>
+          <div class="module-badges"><span class="badge badge-skill">Skill</span><span class="badge badge-proj">Project</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m12">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--green)"></span>The anatomy of a paragraph: topic sentence → supporting sentences → concluding sentence</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Unity and coherence — every sentence must support the topic</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Transition words and phrases: however, furthermore, in contrast, consequently</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>The 5-paragraph essay: Introduction → Body ×3 → Conclusion</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Writing a strong thesis statement</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Types of essays: descriptive, narrative, expository, persuasive/argumentative</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Outlining before writing — planning your argument</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Introduction hooks: anecdote, statistic, rhetorical question, bold statement</li>
+          </ul>
+          <div class="project-box">
+            <strong>✍️ Project</strong>Write a 500-word argumentative essay on a topic of your choice (e.g., "Social media does more harm than good"). Include a thesis, three body paragraphs with evidence, and a conclusion.
+          </div>
+        </div>
+      </div>
+
+      <!-- M13 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m13')">
+          <div class="module-num">13</div>
+          <div class="module-icon">🗣️</div>
+          <div class="module-name">Speaking — Pronunciation, Fluency & Confidence</div>
+          <div class="module-badges"><span class="badge badge-skill">Skill</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m13">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--green)"></span>Word stress: <em>PREsent</em> (noun) vs <em>preSENT</em> (verb) — the same word, different meaning</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Sentence stress: emphasizing the right word changes meaning</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Connected speech: linking, elision, assimilation, weak forms</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Intonation: rising (question), falling (statement), rise-fall (sarcasm)</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Common pronunciation traps for Bengali speakers: /v/ vs /b/, /th/, /w/ vs /v/</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Speaking at natural pace — chunking speech into meaningful groups</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Conversation strategies: turn-taking, active listening, asking for clarification</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Formal vs informal register in speech</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- M14 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m14')">
+          <div class="module-num">14</div>
+          <div class="module-icon">👂</div>
+          <div class="module-name">Listening Skills & Accents</div>
+          <div class="module-badges"><span class="badge badge-skill">Skill</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m14">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--green)"></span>Listening for gist vs listening for specific information</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Recognizing reduced forms: "gonna," "wanna," "hafta," "dunno"</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Major English accents: British (RP), American (General American), Australian, Indian English</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Note-taking while listening: symbols, abbreviations, mind maps</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Listening to authentic media: podcasts, TED Talks, news broadcasts</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Developing ear for nuance: sarcasm, humor, hesitation, emphasis</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- M15 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m15')">
+          <div class="module-num">15</div>
+          <div class="module-icon">💬</div>
+          <div class="module-name">Idioms, Phrasal Verbs & Collocations</div>
+          <div class="module-badges"><span class="badge badge-skill">Skill</span><span class="badge badge-adv">Advanced</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m15">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--green)"></span>What idioms are — why literal translation fails: "kick the bucket," "spill the beans," "bite the bullet"</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>100 essential English idioms by category (time, success, emotions, work)</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Phrasal verbs — two-word (and three-word) verbs that change meaning completely</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Separable vs inseparable phrasal verbs: "turn off the light" vs "turn the light off"</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Collocations — words that naturally go together: <em>make</em> a decision (not <em>do</em>), <em>heavy</em> rain (not <em>strong</em>)</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Fixed expressions: "by the way," "on second thought," "as a matter of fact"</li>
+          </ul>
+          <div class="example-box">
+            <strong>📖 Collocation Pairs</strong>
+            do → homework, business, damage, research<br>
+            make → a mistake, progress, an effort, a decision<br>
+            take → a break, responsibility, part, action<br>
+            heavy → rain, traffic, burden, accent
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /phase 3 -->
+
+  <div class="ornament-divider"><span>❧</span></div>
+
+  <!-- ============================================================
+       PHASE 4 — ADVANCED WRITING
+  ============================================================ -->
+  <div class="phase phase-4" id="ph4">
+    <div class="phase-header" onclick="togglePhase('ph4')">
+      <div class="phase-accent"></div>
+      <div class="phase-header-inner">
+        <div class="phase-num">04</div>
+        <div class="phase-meta">
+          <div class="phase-tag">Phase 04 · Advanced Writing</div>
+          <div class="phase-title">Academic Writing, Rhetoric & Style</div>
+          <div class="phase-desc">Write with precision, elegance, and persuasive force</div>
+        </div>
+        <div class="phase-right">
+          <div class="phase-duration">Week 13–17</div>
+          <div class="phase-arrow">▾</div>
+        </div>
+      </div>
+    </div>
+    <div class="phase-body" id="ph4-body">
+
+      <!-- M16 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m16')">
+          <div class="module-num">16</div>
+          <div class="module-icon">🎓</div>
+          <div class="module-name">Academic Writing — Research & Arguments</div>
+          <div class="module-badges"><span class="badge badge-adv">Advanced</span><span class="badge badge-proj">Project</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m16">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--purple)"></span>Characteristics of academic writing: formal, objective, hedged, evidence-based</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span>Developing a strong, specific thesis with a clear position</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span>Finding and evaluating sources: primary, secondary, peer-reviewed</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span>Paraphrasing, summarizing, and quoting correctly — avoiding plagiarism</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span>Citation styles: APA, MLA, Chicago — when and how to use each</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span>Hedging language: "may suggest," "appears to indicate," "it could be argued"</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span>Counterargument and refutation — strengthening your argument</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span>Writing an abstract, introduction, literature review, and conclusion</li>
+          </ul>
+          <div class="project-box">
+            <strong>✍️ Project</strong>Write a 1200-word academic essay with at least 4 sources, proper in-text citations, and a full reference list using APA format. Topic: any area related to your field of study.
+          </div>
+        </div>
+      </div>
+
+      <!-- M17 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m17')">
+          <div class="module-num">17</div>
+          <div class="module-icon">🎭</div>
+          <div class="module-name">Rhetoric & Figures of Speech</div>
+          <div class="module-badges"><span class="badge badge-adv">Advanced</span><span class="badge badge-lit">Literature</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m17">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--purple)"></span>Aristotle's rhetorical triangle: <em>Ethos</em> (credibility), <em>Pathos</em> (emotion), <em>Logos</em> (logic)</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span><strong>Simile</strong> — "Life is <em>like</em> a box of chocolates."</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span><strong>Metaphor</strong> — "Time is a thief."</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span><strong>Personification</strong> — "The wind <em>whispered</em> through the trees."</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span><strong>Alliteration</strong> — "Peter Piper picked a peck…"</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span><strong>Irony</strong> (verbal, dramatic, situational), <strong>Sarcasm</strong>, <strong>Hyperbole</strong>, <strong>Understatement</strong></li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span><strong>Oxymoron</strong> — "deafening silence," "bittersweet"</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span><strong>Anaphora</strong> — repetition at the start ("I have a dream… I have a dream…")</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span><strong>Antithesis</strong> — "It was the best of times, it was the worst of times."</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span><strong>Chiasmus</strong> — "Ask not what your country can do for you…"</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span>Allusion, euphemism, synecdoche, metonymy</li>
+          </ul>
+          <div class="quote-box">
+            <strong>🎯 Famous Rhetoric</strong>
+            <blockquote>"We shall fight on the beaches, we shall fight on the landing grounds, we shall fight in the fields and in the streets… we shall never surrender."</blockquote>
+            <cite>— Winston Churchill (uses anaphora, tricolon, and climax)</cite>
+          </div>
+        </div>
+      </div>
+
+      <!-- M18 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m18')">
+          <div class="module-num">18</div>
+          <div class="module-icon">✒️</div>
+          <div class="module-name">Style, Voice & Advanced Punctuation</div>
+          <div class="module-badges"><span class="badge badge-adv">Advanced</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m18">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--purple)"></span>Developing a distinctive writing voice — what separates good writers from great ones</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span>Varying sentence length for rhythm: short for punch. Long, flowing sentences build momentum and depth.</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span>The semicolon (;): joining related independent clauses; signaling a close relationship</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span>The colon (:): introducing a list, explanation, or quotation</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span>Em dash (—) vs en dash (–) vs hyphen (-): each has a different purpose</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span>Parentheses, brackets, and ellipses in formal and creative writing</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span>The art of the edit: cutting unnecessary words, eliminating passive voice, tightening prose</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- M19 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m19')">
+          <div class="module-num">19</div>
+          <div class="module-icon">📧</div>
+          <div class="module-name">Business & Professional English Writing</div>
+          <div class="module-badges"><span class="badge badge-skill">Skill</span><span class="badge badge-adv">Advanced</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m19">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--purple)"></span>Professional email: subject line, salutation, body, closing, signature</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span>Formal vs semi-formal vs informal register in writing</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span>Report writing: executive summary, findings, recommendations</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span>Proposal writing: problem statement, objectives, methodology, budget</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span>Meeting minutes, memos, and circulars</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span>CV / cover letter writing — professional self-presentation</li>
+            <li><span class="t-bullet" style="background:var(--purple)"></span>Diplomatic language: saying "no," giving criticism, negotiating in writing</li>
+          </ul>
+          <div class="project-box">
+            <strong>✍️ Project</strong>Write a formal business proposal (600 words) requesting approval for a new project at your organization. Include an executive summary, justification, timeline, and conclusion.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /phase 4 -->
+
+  <!-- ============================================================
+       PHASE 5 — LITERATURE & MASTERY
+  ============================================================ -->
+  <div class="phase phase-5" id="ph5">
+    <div class="phase-header" onclick="togglePhase('ph5')">
+      <div class="phase-accent"></div>
+      <div class="phase-header-inner">
+        <div class="phase-num">05</div>
+        <div class="phase-meta">
+          <div class="phase-tag">Phase 05 · Literature & Mastery</div>
+          <div class="phase-title">Literature, Linguistics & The Highest Levels</div>
+          <div class="phase-desc">Poetry, prose, critical theory, and the deepest understanding of the English language</div>
+        </div>
+        <div class="phase-right">
+          <div class="phase-duration">Week 18–20</div>
+          <div class="phase-arrow">▾</div>
+        </div>
+      </div>
+    </div>
+    <div class="phase-body" id="ph5-body">
+
+      <!-- M20 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m20')">
+          <div class="module-num">20</div>
+          <div class="module-icon">📜</div>
+          <div class="module-name">Poetry — Forms, Meter & Analysis</div>
+          <div class="module-badges"><span class="badge badge-lit">Literature</span><span class="badge badge-adv">Advanced</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m20">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--green)"></span>What poetry is — and why it matters: compression, music, imagery</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Meter: iambic pentameter (da-DUM ×5) — the heartbeat of English poetry</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Poetic feet: iamb, trochee, anapest, dactyl, spondee</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Rhyme schemes: ABAB, ABBA, AABB, free verse</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Forms: sonnet (Petrarchan vs Shakespearean), haiku, ode, elegy, ballad, villanelle</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Poetic devices: enjambment, caesura, volta, refrain</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Analyzing a poem: SIFT (Symbol, Imagery, Form/structure, Tone) method</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Key poets: Shakespeare, Keats, Emily Dickinson, T.S. Eliot, Langston Hughes, Sylvia Plath, Seamus Heaney</li>
+          </ul>
+          <div class="quote-box">
+            <strong>🌸 Keats, Ode to a Nightingale (1819)</strong>
+            <blockquote>Thou wast not born for death, immortal Bird!<br>No hungry generations tread thee down;</blockquote>
+            <cite>— Iambic pentameter; personification; apostrophe (addressing the bird directly)</cite>
+          </div>
+        </div>
+      </div>
+
+      <!-- M21 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m21')">
+          <div class="module-num">21</div>
+          <div class="module-icon">📗</div>
+          <div class="module-name">Prose Literature — Short Story & Novel</div>
+          <div class="module-badges"><span class="badge badge-lit">Literature</span><span class="badge badge-adv">Advanced</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m21">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--green)"></span>Narrative elements: plot (Freytag's pyramid), character, setting, conflict, theme, point of view</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Narrative modes: first person, second person, third person limited, omniscient</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Characterization: direct vs indirect; static vs dynamic characters; foil characters</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Symbolism, allegory, and motif in fiction</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Short story masters: Chekhov, O. Henry, Hemingway, Flannery O'Connor</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>The novel form: Dickens, Hardy, Austen — Victorian to Modernist</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Postcolonial literature in English: Achebe, Naipaul, Rushdie, Ondaatje</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>South Asian English literature: Tagore, Jhumpa Lahiri, Amitav Ghosh</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- M22 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m22')">
+          <div class="module-num">22</div>
+          <div class="module-icon">🎭</div>
+          <div class="module-name">Drama — Shakespeare & Theatre Tradition</div>
+          <div class="module-badges"><span class="badge badge-lit">Literature</span><span class="badge badge-adv">Advanced</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m22">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--green)"></span>Structure of a play: acts, scenes, soliloquy, monologue, dialogue, stage directions</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Dramatic conventions: aside, dramatic irony, tragic flaw (hamartia), catharsis</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Shakespeare's comedies (A Midsummer Night's Dream), tragedies (Hamlet, Macbeth, King Lear), histories</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Reading and understanding Elizabethan English — thee, thou, doth, hath</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Modern drama: Ibsen, Shaw, Beckett (Waiting for Godot — absurdism), Arthur Miller</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Theatre of the Absurd and existentialism in English drama</li>
+          </ul>
+          <div class="quote-box">
+            <strong>📌 Hamlet, Act III — The Most Famous Soliloquy</strong>
+            <blockquote>"To be, or not to be, that is the question:<br>Whether 'tis nobler in the mind to suffer<br>The slings and arrows of outrageous fortune…"</blockquote>
+            <cite>— Iambic pentameter; rhetorical question; metaphor ("slings and arrows" for misfortune)</cite>
+          </div>
+        </div>
+      </div>
+
+      <!-- M23 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m23')">
+          <div class="module-num">23</div>
+          <div class="module-icon">🔬</div>
+          <div class="module-name">Literary Theory & Critical Analysis</div>
+          <div class="module-badges"><span class="badge badge-lit">Literature</span><span class="badge badge-adv">Advanced</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m23">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--green)"></span><strong>Formalism / New Criticism</strong> — the text itself is everything; close reading</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span><strong>Structuralism</strong> — literature as a system of signs (Saussure, Lévi-Strauss)</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span><strong>Psychoanalytic criticism</strong> — Freud, Jung: the unconscious in texts</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span><strong>Marxist criticism</strong> — class, ideology, power in literature</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span><strong>Feminist criticism</strong> — gender, the male gaze, reclaiming women's narratives</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span><strong>Postcolonial theory</strong> — Frantz Fanon, Edward Said's Orientalism, Homi Bhabha</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span><strong>Deconstruction</strong> — Derrida: destabilizing fixed meanings</li>
+            <li><span class="t-bullet" style="background:var(--green)"></span>Writing a literary critical essay — how to make an original argument about a text</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- M24 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m24')">
+          <div class="module-num">24</div>
+          <div class="module-icon">🧠</div>
+          <div class="module-name">Linguistics — How the English Language Works</div>
+          <div class="module-badges"><span class="badge badge-adv">Advanced</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m24">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--red)"></span>Phonology: the sound system — phonemes, allophones, minimal pairs</li>
+            <li><span class="t-bullet" style="background:var(--red)"></span>Morphology: how words are formed from morphemes (free vs bound)</li>
+            <li><span class="t-bullet" style="background:var(--red)"></span>Syntax: formal grammar rules, tree diagrams, generative grammar</li>
+            <li><span class="t-bullet" style="background:var(--red)"></span>Semantics: meaning in language — sense, reference, semantic fields</li>
+            <li><span class="t-bullet" style="background:var(--red)"></span>Pragmatics: how context shapes meaning — speech acts, implicature (Grice's maxims)</li>
+            <li><span class="t-bullet" style="background:var(--red)"></span>The history of English: Old English (Anglo-Saxon) → Middle English (Chaucer) → Early Modern (Shakespeare) → Modern</li>
+            <li><span class="t-bullet" style="background:var(--red)"></span>Sociolinguistics: dialects, code-switching, language and identity, English as a global language</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- M25 -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m25')">
+          <div class="module-num">25</div>
+          <div class="module-icon">🌍</div>
+          <div class="module-name">Advanced Vocabulary — Power Words & Register</div>
+          <div class="module-badges"><span class="badge badge-adv">Advanced</span><span class="badge badge-skill">Skill</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m25">
+          <ul class="topic-list">
+            <li><span class="t-bullet" style="background:var(--red)"></span>GRE / IELTS / TOEFL high-frequency vocabulary — 500 power words with nuanced meanings</li>
+            <li><span class="t-bullet" style="background:var(--red)"></span>Latinate vs Anglo-Saxon vocabulary and when to use each (formal vs plain)</li>
+            <li><span class="t-bullet" style="background:var(--red)"></span>Precise vs vague language: <em>emaciated</em> vs <em>thin</em>; <em>elated</em> vs <em>happy</em></li>
+            <li><span class="t-bullet" style="background:var(--red)"></span>Register: how vocabulary shifts from scientific paper → news article → conversation</li>
+            <li><span class="t-bullet" style="background:var(--red)"></span>Euphemisms and taboo language — language and social sensitivity</li>
+            <li><span class="t-bullet" style="background:var(--red)"></span>Eponyms (words from names): sandwich, boycott, cardigan, machiavellian</li>
+            <li><span class="t-bullet" style="background:var(--red)"></span>Neologisms and how new words enter English — portmanteaus, blends, acronyms</li>
+          </ul>
+          <div class="example-box">
+            <strong>📖 Same Meaning, Very Different Effect</strong>
+            Plain: <em>She was very thin and looked sick.</em><br>
+            Advanced: <em>She was gaunt, her complexion pallid, her frame almost spectral.</em><br><br>
+            Both correct — the second creates a vivid, literary image.
+          </div>
+        </div>
+      </div>
+
+      <!-- M26 CAPSTONE -->
+      <div class="module">
+        <div class="module-header" onclick="toggleModule('m26')">
+          <div class="module-num">26</div>
+          <div class="module-icon">🏆</div>
+          <div class="module-name">Capstone — Choose Your Track</div>
+          <div class="module-badges"><span class="badge badge-proj">Project</span></div>
+          <div class="module-chevron">▾</div>
+        </div>
+        <div class="module-content" id="m26">
+          <ul class="topic-list" style="margin-bottom:16px">
+            <li><span class="t-bullet" style="background:var(--red)"></span><strong style="color:var(--ink)">Track A — Academic Scholar:</strong> Write a full 2000-word research essay with proper citations, abstract, and literature review on an English or social science topic</li>
+            <li><span class="t-bullet" style="background:var(--red)"></span><strong style="color:var(--ink)">Track B — Creative Writer:</strong> Write a 1500-word short story demonstrating mastery of narrative technique, literary devices, and a distinctive voice</li>
+            <li><span class="t-bullet" style="background:var(--red)"></span><strong style="color:var(--ink)">Track C — The Orator:</strong> Prepare and deliver (or write) a 10-minute persuasive speech on a significant issue, incorporating ethos, pathos, logos, and at least five rhetorical devices</li>
+            <li><span class="t-bullet" style="background:var(--red)"></span><strong style="color:var(--ink)">Track D — Literary Critic:</strong> Write a 1500-word critical analysis of any literary text using one of the critical theory frameworks studied in Module 23</li>
+          </ul>
+          <div class="project-box">
+            <strong>🏆 Capstone Benchmark</strong>Your capstone piece should be publishable — the standard of a university final paper, a literary magazine submission, or a conference speech. It represents 20 weeks of focused study. Make it count.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /phase 5 -->
+
+</main>
+
+<!-- ===== CLOSING ===== -->
+<div class="closing">
+  <div class="closing-bg">A</div>
+  <div class="closing-inner">
+    <h2>You now speak <em>English</em>.</h2>
+    <p>From your first alphabet to Shakespeare, rhetoric, and literary theory — 20 weeks, 26 modules, one language mastered completely.</p>
+  </div>
+</div>
+
+<script>
+window.addEventListener('scroll', () => {
+  const d = document.documentElement;
+  const pct = (d.scrollTop / (d.scrollHeight - d.clientHeight)) * 100;
+  document.getElementById('pbar').style.width = pct + '%';
+});
+
+function togglePhase(id) {
+  const ph = document.getElementById(id);
+  const header = ph.querySelector('.phase-header');
+  const body = document.getElementById(id + '-body');
+  header.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
+function toggleModule(id) {
+  const content = document.getElementById(id);
+  const header = content.previousElementSibling;
+  header.classList.toggle('open');
+  content.classList.toggle('open');
+}
+
+// Open Phase 1 by default
+togglePhase('ph1');
+</script>
+</body>
+</html>
